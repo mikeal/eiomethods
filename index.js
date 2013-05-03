@@ -18,7 +18,7 @@ function keys (obj) {
 
 function binder (socket) {
   if (!socket.json) eiojson(socket)
-  if (socket.export && socket.methods) return
+  if (socket.export && socket.methods) return socket
 
   var exports = {}
     , pending = {}
