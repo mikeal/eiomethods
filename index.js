@@ -17,6 +17,8 @@ function keys (obj) {
 }
 
 function binder (socket) {
+  if (!socket.json) eiojson(socket)
+
   var exports = {}
     , pending = {}
     ;
@@ -67,23 +69,4 @@ function binder (socket) {
   return socket
 }
 
-function bindServer (server) {
-  server.on('connection', function (socket) {
-    binder(socket)
-  })
-  return server
-}
-
-eiojson.wrap(eiojson.server, 'listen', bindServer)
-eiojson.wrap(eiojson.server, 'attach', bindServer)
-
 module.exports = binder
-
-module.exports.server = eiojson.server
-module.exports.client = function () {
-  return binder(eiojson.client.apply(eiojson.client, arguments))
-}
-
-module.exports.binder = binder
-module.exports.bindClient = binder
-module.exports.bindServer = bindServer

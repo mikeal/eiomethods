@@ -4,14 +4,16 @@
   "description": "Remote method exports and invocation with engine.io",
   "main": "index.js",
   "dependencies": {
-    "eiojson": "~0.7.0",
+    "eiojson": "~0.9.0",
     "lodash": "~1.2.1",
     "node-uuid": "~1.4.0"
   },
   "devDependencies": {
     "cleanup": "~0.2.0",
     "eioemitter": "~0.1.0",
-    "okdone": "~0.2.0"
+    "okdone": "~0.2.0",
+    "engine.io": "~0.5.0",
+    "engine.io-client": "~0.5.0"
   },
   "scripts": {
     "test": "node test.js"

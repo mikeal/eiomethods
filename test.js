@@ -3,6 +3,8 @@ var eiomethods = require('./index')
   , assert = require('assert')
   , ok = require('okdone')
   , eioemitter = require('eioemitter')
+  , engine = require('engine.io')
+  , client = require('engine.io-client')
   ;
 
 var d = cleanup(function (error) {
@@ -53,8 +55,8 @@ function test (c) {
   return c
 }
 
-var s = eiomethods.server.listen(8080, function () {
-  var c = eiomethods.client('ws://localhost:8080')
+var s = engine.listen(8080, function () {
+  var c = eiomethods(client('ws://localhost:8080'))
 
   var ee = eioemitter(c)
   ee.on('ready', function () {
@@ -66,6 +68,7 @@ var s = eiomethods.server.listen(8080, function () {
 })
 
 s.on('connection', function (c) {
+  eiomethods(c)
   var ee = eioemitter(c)
   ee.on('ready', function () {
     test(c)
