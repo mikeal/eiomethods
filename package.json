@@ -1,6 +1,6 @@
 {
   "name": "eiomethods",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Remote method exports and invocation with engine.io",
   "main": "index.js",
   "dependencies": {
