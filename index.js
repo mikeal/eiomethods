@@ -1,5 +1,5 @@
-var eiojson = require('eiojson')
-  , _ = require('lodash')
+var _ = require('lodash')
+  , eiojson = require('eiojson')
   , uuid = require('node-uuid')
   ;
 
@@ -77,11 +77,13 @@ function bindServer (server) {
 eiojson.wrap(eiojson.server, 'listen', bindServer)
 eiojson.wrap(eiojson.server, 'attach', bindServer)
 
-exports.server = eiojson.server
-exports.client = function () {
+module.exports = binder
+
+module.exports.server = eiojson.server
+module.exports.client = function () {
   return binder(eiojson.client.apply(eiojson.client, arguments))
 }
 
-exports.binder = binder
-exports.bindClient = binder
-exports.bindServer = bindServer
+module.exports.binder = binder
+module.exports.bindClient = binder
+module.exports.bindServer = bindServer
