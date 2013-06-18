@@ -3,8 +3,8 @@ var _ = require('lodash')
   , uuid = require('node-uuid')
   ;
 
-function success (obj, uuid) {
-  return {extension: 'eiomethods', name:'_return', success:obj, uuid:uuid}
+function success (arr, uuid) {
+  return {extension: 'eiomethods', name:'_return', success:arr, uuid:uuid}
 }
 
 function failure (error, uuid) {
@@ -50,7 +50,7 @@ function binder (socket) {
       if (obj.name === '_export') return socket.methods[obj.method] = createRemoteInvoke(obj.method)
       if (obj.name === '_return') {
         if (typeof obj.error === 'string') obj.error = new Error(obj.error)
-        pending[obj.uuid](obj.error, obj.success)
+        pending[obj.uuid].apply(pending[obj.uuid], [obj.error].concat(obj.success))
         delete pending[obj.uuid]
         return
       }
@@ -59,9 +59,9 @@ function binder (socket) {
 
     if (!exports[obj.name]) return socket.json(failure(new Error('Method does not exist'), obj.uuid))
 
-    obj.args.push(function cb (err, o) {
+    obj.args.push(function cb (err) {
       if (err) return socket.json(failure(err, obj.uuid))
-      socket.json(success(o, obj.uuid))
+      socket.json(success(Array.prototype.slice.call(arguments, 1), obj.uuid))
     })
 
     exports[obj.name].apply(exports[obj.name], obj.args)

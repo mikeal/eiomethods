@@ -18,7 +18,7 @@ function binder (socket) {
     assert.equal(x, 0)
     assert.equal(y, 1)
     assert.equal(z, 2)
-    cb(null, {test:1})
+    cb(null, {test:1}, 2)
   })
   socket.export('testFuture', function (cb) {
     setTimeout(cb.bind(cb, null, 1), 10)
@@ -37,9 +37,10 @@ function check (name) {
 }
 
 function test (c) {
-  c.methods.test(0, 1, 2, function (error, success) {
+  c.methods.test(0, 1, 2, function (error, success, two) {
     if (error) throw error
     assert.deepEqual(success, {test:1})
+    assert.equal(two, 2)
     check('test')
   })
   c.methods.testFuture(function (error, s) {
